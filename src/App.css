@@ -1,0 +1,323 @@
+
+:root {
+  --bg-color: #ebebeb;
+  --card-bg: #ffffff;
+  --text-color: #001f29;
+  --primary-color: #007aff;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  overflow: hidden;
+  background-color: var(--bg-color);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.mobile-container {
+  display: flex;
+  height: 100vh;
+  justify-content: center; 
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.workspace-bounds {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: auto;
+  max-width: 1400px;
+}
+
+.app-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: fit-content;
+  padding: 16px;
+  box-sizing: border-box;
+}
+
+
+.mobile-container.mode-split.app-is-open .workspace-bounds {
+  justify-content: center;
+  width: 90vw; 
+}
+
+.mobile-container.mode-split.app-is-open .app-content {
+  padding-left: 20px;
+  padding-right: 40px;
+}
+
+.mobile-container.mode-in-frame .app-content,
+.mobile-container.mode-full-screen .app-content {
+  width: 100% !important;
+}
+
+.mobile-container.mode-in-frame .workspace-bounds,
+.mobile-container.mode-full-screen .workspace-bounds {
+  width: 100vw;
+}
+
+.mobile-container.mode-full-screen .app-content {
+  padding: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+}
+
+.mobile-container.mode-full-screen .mock-iphone {
+  width: 100vw !important;
+  height: 100vh !important;
+  max-height: 100vh !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  aspect-ratio: auto !important;
+  box-shadow: none !important;
+  background: transparent !important;
+}
+
+.mobile-container.mode-full-screen .mock-screen {
+  border-radius: 0 !important;
+  padding: 40px 20px 20px 20px !important;
+  background: var(--bg-color) !important;
+}
+
+.mobile-container.mode-full-screen .mock-dynamic-island {
+  display: none !important;
+}
+
+.mock-iphone {
+  position: relative;
+  height: 100%;
+  max-height: calc(100vh - 40px);
+  aspect-ratio: 9 / 19.5;
+  background: #000000;
+  border-radius: 44px;
+  padding: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  box-sizing: border-box;
+  display: flex;
+}
+
+.mock-dynamic-island {
+  position: absolute;
+  top: 22px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 25%;
+  height: 3.5%;
+  background-color: #000000;
+  border-radius: 20px;
+  z-index: 10;
+}
+
+.mock-screen {
+  width: 100%;
+  height: 100%;
+  background: #1c1c1e;
+  border-radius: 34px;
+  padding: 18% 16px 20px 16px;
+  box-sizing: border-box;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.image-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  width: 100%;
+  flex-shrink: 0;
+}
+
+.appImage {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: 22%;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  transition: transform 0.1s ease;
+}
+
+.appImage:active { 
+  transform: scale(0.9); 
+}
+
+.appImage.active-icon {
+  outline: 3px solid var(--primary-color);
+  outline-offset: 2px;
+}
+
+.status-widget {
+  background: rgba(255, 255, 255, 0.08);
+  padding: 20px;
+  border-radius: 12px;
+  box-sizing: border-box;
+  color: #ffffff;
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+}
+
+.status-widget p {
+  font-size: 0.9rem;
+  line-height: 1.4;
+  color: #ebebeb;
+}
+
+.mobile-container.mode-full-screen .status-widget {
+  background: #ffffff !important;
+  color: #1c1c1e !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  flex: 0 0 auto;
+}
+
+.mobile-container.mode-full-screen .status-widget p {
+  color: #1c1c1e !important;
+}
+
+.details-panel {
+  flex: 0 0 0%;
+  width: 0;
+  height: 100%;
+  overflow: hidden;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: flex-basis 0.4s cubic-bezier(0.25, 1, 0.5, 1),
+              opacity 0.3s ease,
+              visibility 0.4s;
+  background-color: #ffffff;
+  box-shadow: -5px 0 25px rgba(0,0,0,0.05);
+  border-radius: 24px; 
+  max-height: calc(100vh - 40px);
+}
+
+.details-panel.show {
+  flex: 1 1 500px; 
+  width: auto;
+  overflow-y: auto;
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.panel-content {
+  padding: 40px;
+  color: #1c1c1e;
+}
+
+.mock-screen .panel-content {
+  color: #ffffff;
+}
+
+.mock-screen::-webkit-scrollbar,
+.panel-content::-webkit-scrollbar,
+.details-panel::-webkit-scrollbar {
+  display: none;
+}
+
+.mock-screen,
+.panel-content,
+.details-panel {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.images-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(var(--min-img-size, 120px), 1fr));
+  gap: 16px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+
+.image-wrapper {
+  /* Eliminate fixed width & padding to allow grid container control */
+  width: 100%; 
+  aspect-ratio: 1 / 1;
+}
+
+.bigimage-wrapper {
+  width: 100%; 
+  margin: 0 auto;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.galleryImage {
+  width: 100%;                
+  height: 100%;       
+  object-fit: cover;            
+  border-radius: 18px; /* Native rounded corners replace complex clip-paths */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.mode-in-frame .images-container {
+  --min-img-size: 80px; 
+}
+
+@media (max-width: 480px) {
+  .images-container {
+    grid-template-columns: repeat(2, 1fr);
+  
+  }
+}
+
+.details-panel .images-container,
+.mode-full-screen .images-container {
+  --min-img-size: 140px; 
+}
+
+.mobile-container.mode-full-screen .mock-screen .panel-content {
+  color: #1c1c1e;
+}
+
+.close-btn {
+  background: #f2f2f7;
+  color: #1c1c1e;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+  margin-bottom: 24px;
+  margin-top: 24px;
+}
+
+.contact-info {
+  font-weight: bold;
+}
+
+.contact-container {
+  margin: 20px;
+}
+
+.appicon-container {
+  margin: 20px auto;
+  width: 30%;
+  height: 30%;
+}
+
+.mobile-container.mode-in-frame .close-btn {
+  background: rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+}
+
+.mobile-container.mode-full-screen .close-btn {
+  background: #f2f2f7;
+  color: #1c1c1e;
+}
