@@ -4,46 +4,33 @@ import './App.css'
 function App() {
   const [activeApp, setActiveApp] = useState<number | null>(null)
   
-  // Track layout classification: 'split', 'in-frame', or 'full-screen'
   const [layoutMode, setLayoutMode] = useState<'split' | 'in-frame' | 'full-screen'>('split')
   const phoneRef = useRef<HTMLDivElement>(null)
 
-  useEffect(() => {
+useEffect(() => {
   const handleResize = () => {
-    if (!phoneRef.current) return
-
-    // Use the viewport width as the true source of truth
     const windowWidth = window.innerWidth
-    
-    // Measure the phone, but give it a fallback if layout gets stuck
-    const phoneWidth = phoneRef.current.getBoundingClientRect().width
-    const ratio = phoneWidth / windowWidth
 
-
-    if (ratio <= 0.334) {
-      setLayoutMode('split')
-    } 
-    // else if (ratio > 0.334 && ratio < 0.5) {
-    //   setLayoutMode('in-frame')
-    // } 
-    else {
+    // Check the raw window width directly. 
+    // If the window is less than 1000px wide, force full-screen/single-frame layout.
+    // If it's wider than 1000px, allow the split-screen panel view.
+    if (windowWidth < 1000) { 
       setLayoutMode('full-screen')
+    } else {
+      setLayoutMode('split')
     }
   }
 
-  // Set up a ResizeObserver on the body or workspace bounds instead of a window listener.
-  // This forces layout recalculated updates when elements shrink.
-  const observer = new ResizeObserver(() => handleResize())
-  observer.observe(document.body)
-
-  handleResize()
+  // Listen to the window resizing directly
   window.addEventListener('resize', handleResize)
+  
+  // Run it immediately on mount to set the initial layout
+  handleResize()
   
   return () => {
     window.removeEventListener('resize', handleResize)
-    observer.disconnect()
   }
-}, [])
+}, []) // Clean and simple: no dependencies needed anymore!
 
   const apps = [
     { id: 1, src: "./images/baseballicon.jpg", title: "App 1" },
@@ -357,7 +344,6 @@ function App() {
   return (
   <div className={`mobile-container mode-${layoutMode} ${isAppOpen ? 'app-is-open' : ''}`}>
     
-    {/* NEW OUTER STABILIZING BOUNDS */}
     <div className="workspace-bounds">
       
       <main className="app-content">
